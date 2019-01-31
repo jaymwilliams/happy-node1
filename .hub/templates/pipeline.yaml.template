@@ -1,0 +1,17 @@
+---
+apiVersion: "jenkins.agilestacks.com/v1"
+kind: Pipeline
+metadata:
+  name: ${application.pipeline.name}-${application.name}
+spec:
+  repositoryUrl: ${application.git.remote}
+  credentialsId: ${application.git.kind}-${component.git.organization}
+  folder: ${application.name}  
+  branchSpec: '*/${component.gitBranch.git.branch}'
+  pipeline: Jenkinsfile
+  origin: 'SuperHub'
+  parameters:
+    - name: APP_STATE_FILE
+      type: string
+      defaultValue: ${application.promotion.state.file}
+      description: 'State file of the application promotion stack'

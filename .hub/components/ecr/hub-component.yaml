@@ -1,0 +1,40 @@
+---
+version: 1
+kind: component
+meta:
+  name: ecr
+  brief: Cross account ECR component
+  source:
+    dir: components/ecr
+
+parameters:
+- name: component.ecr
+  parameters:
+  - name: name
+    value: ecr
+    env: COMPONENT_NAME
+- name: cloud.region
+  env: TF_VAR_client_aws_region
+- name: dns.domain
+  env:  DOMAIN_NAME
+- name: terraform.bucket
+  parameters:
+  - name: name
+    env: STATE_BUCKET
+  - name: region
+    env: STATE_REGION
+- name: component.xaccountRole.roleArn
+  env: TF_VAR_assume_role_arn   
+
+outputs:
+- name: component.docker.registry.kind
+  value: ecr
+- name: component.docker.image
+  brief: Docker image of this component
+  fromTfVar: repository_url
+- name: component.ecr.image
+  brief: Docker image of this component
+  fromTfVar: repository_url
+- name: component.ecr.registry_id
+  brief: ECR registry id
+  fromTfVar: registry_id

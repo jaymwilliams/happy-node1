@@ -1,0 +1,170 @@
+version: 1
+kind: application
+meta:
+  name: 'container-promotion:1'
+  brief: Template that promotes containerized applications to greater environments
+  source:
+    dir: .
+requires:
+  - kubernetes
+  - jenkins
+components:
+  - name: git-branch
+    source:
+      dir: components/git-branch
+  - name: xaccount-role
+    source:
+      dir: components/xaccount-role
+  - name: kubernetes-provider
+    source:
+      dir: components/kubernetes-provider
+  - name: target-ecr
+    source:
+      dir: components/ecr
+lifecycle:
+  order:
+    - xaccount-role
+    - kubernetes-provider
+    - target-ecr
+    - git-branch
+parameters:
+  - name: application.cloud.role
+  - name: application.docker.image
+  - name: application.environment.name
+    value: ''
+  - name: application.fqdn
+  - name: application.git.kind
+  - name: application.git.remote
+  - name: application.name
+  - name: application.namespace
+  - name: application.path
+  - name: application.pipeline.name
+    value: '${promotion.branch}'
+  - name: application.port
+  - name: application.promotion.state.file
+    fromEnv: APP_STATE_FILE
+  - name: application.replicas
+  - name: application.version
+  - name: cloud.region
+    component: target-ecr
+    value: '${component.kubernetesProvider.region}'
+    kind: link
+  - name: cloud.region
+  - name: component.dex.okta.appId
+    value: 0oa342u227BWaWsTm2p7
+  - name: component.dex.okta.clientId
+    value: 0oa342u227BWaWsTm2p7
+  - name: component.dex.okta.clientSecret
+    value: C5jp0khDeNjp2vBEycCvOikMQHn-7X2oDPNoU3Lh
+  - name: component.dex.okta.issuer
+    value: 'https://agilestacks.okta.com'
+  - name: component.docker.image
+  - name: component.ecr.name
+    value: >-
+      ${promotion.environment}.${application.name}.${component.kubernetesProvider.domain}
+    kind: link
+  - name: component.git.organization
+  - name: component.git.token
+  - name: component.gitBranch.git.branch
+    value: '${promotion.branch}'
+    env: BRANCH_NAME
+  - name: component.gitBranch.git.kind
+    value: '${application.git.kind}'
+    env: GIT_KIND
+  - name: component.gitBranch.git.organization
+    value: '${component.git.organization}'
+    env: ORGANIZATION
+  - name: component.gitBranch.git.repository
+    value: '${application.git.remote}'
+    env: REMOTE
+  - name: component.gitBranch.git.token
+    value: '${component.git.token}'
+    env: GIT_TOKEN
+  - name: component.gitBranch.url
+  - name: component.jenkins.url
+  - name: component.kubernetesProvider.domain
+  - name: component.kubernetesProvider.elaborateFile
+    fromEnv: KUBE_PROVIDER_ELABORATE_FILE
+  - name: component.kubernetesProvider.ingress.fqdn
+  - name: component.kubernetesProvider.ingress.protocol
+  - name: component.kubernetesProvider.ingress.ssoFqdn
+  - name: component.kubernetesProvider.region
+  - name: component.kubernetesProvider.roleArn
+    value: '${component.xaccountRole.roleArn}'
+    kind: link
+  - name: component.kubernetesProvider.stateFile
+    fromEnv: KUBE_PROVIDER_STATE_FILE
+  - name: component.xaccountRole.name
+    value: '${promotion.environment}.${application.name}'
+  - name: component.xaccountRole.roleArn
+  - name: component.xaccountRole.target.awsAccessKey
+    fromEnv: TARGET_AWS_ACCESS_KEY_ID
+  - name: component.xaccountRole.target.awsSecretKey
+    fromEnv: TARGET_AWS_SECRET_ACCESS_KEY
+  - name: component.xaccountRole.target.awsSessionKey
+    fromEnv: TARGET_AWS_SESSION_TOKEN
+  - name: dns.domain
+    env: DOMAIN_NAME
+  - name: promotion.branch
+    value: happy-node-01-test
+  - name: promotion.description
+    value: Promotes an application to next CI stage
+  - name: promotion.environment
+    value: happy-node-01-test
+  - name: promotion.name
+    value: happy-node01-test
+  - name: terraform.bucket.name
+  - name: terraform.bucket.region
+outputs:
+  - name: application.git.branch
+    value: '${component.gitBranch.git.branch}'
+  - name: promotion.git.remote
+    value: '${component.gitBranch.url}'
+  - name: application.git.user
+    value: '${component.git.organization}'
+  - name: application.git.kind
+    values: '${application.git.kind}'
+  - name: application.git.remote
+    value: '${application.git.remote}'
+  - name: application.source.ecr
+    value: '${application.docker.image}'
+  - name: application.name
+    value: '${application.name}'
+  - name: application.namespace
+    value: '${application.namespace}'
+  - name: application.version
+    value: '${application.version}'
+  - name: application.replicas
+    value: '${application.replicas}'
+  - name: promotion.environment
+    value: '${promotion.environment}'
+  - name: application.target.path
+    value: '${application.path}'
+  - name: application.target.roleArn
+    value: '${component.xaccountRole.roleArn}'
+  - name: application.target.platform.state.file
+    value: '${component.kubernetesProvider.stateFile}'
+  - name: application.target.ingress.fqdn
+    value: '${component.kubernetesProvider.ingress.fqdn}'
+  - name: application.target.ingress.ssoFqdn
+    value: '${component.kubernetesProvider.ingress.ssoFqdn}'
+  - name: application.target.ingress.protocol
+    value: '${component.kubernetesProvider.ingress.protocol}'
+  - name: application.target.region
+    value: '${component.kubernetesProvider.region}'
+  - name: application.target.domain
+    value: '${component.kubernetesProvider.domain}'
+  - name: application.target.fqdn
+    value: >-
+      ${application.name}-${promotion.environment}.${application.target.ingress.fqdn}
+  - name: application.target.url
+    value: >-
+      ${application.target.ingress.protocol}://${application.target.fqdn}${application.target.path}
+  - name: application.target.jenkins.pipeline.url
+    value: >-
+      ${component.jenkins.url}/job/${application.name}/job/${application.pipeline.name}-${application.name}
+  - name: application.target.ecr
+    value: '${component.docker.image}'
+templates:
+  files:
+    - templates/*.template

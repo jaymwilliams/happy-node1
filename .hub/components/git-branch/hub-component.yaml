@@ -1,0 +1,30 @@
+---
+version: 1
+kind: component
+meta:
+  name: git-branch
+  brief: Git orphan branch
+  source:
+    dir: components/git-branch
+
+parameters:
+- name: component.gitBranch
+  parameters:
+  - name: git.token
+    env: GIT_TOKEN
+  - name: git.branch
+    env: BRANCH_NAME
+  - name: git.repository
+    env: REMOTE
+  - name: git.organization
+    env: ORGANIZATION
+  - name: git.kind
+    env: GIT_KIND   
+- name: workspace
+  value: ../../../
+  env: SRC_DIR 
+
+outputs:
+- name: component.gitBranch.url
+  fromTfVar: link_to_branch
+

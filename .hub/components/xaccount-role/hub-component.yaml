@@ -1,0 +1,37 @@
+---
+version: 1
+kind: component
+meta:
+  name: xaccount-role
+  brief: Cross account application deployment role
+  source:
+    dir: components/xaccount-role
+
+parameters:
+- name: dns.domain
+  env: DOMAIN_NAME
+- name: cloud.region
+  env: AWS_DEFAULT_REGION
+- name: terraform.bucket
+  parameters:
+  - name: name
+    env: STATE_BUCKET
+  - name: region
+    env: STATE_REGION
+
+- name: component.xaccountRole
+  parameters: 
+  - name: target.awsAccessKey
+    env: TF_VAR_target_aws_access_key
+  - name: target.awsSecretKey
+    env: TF_VAR_target_aws_secret_key
+  - name: target.awsSessionKey
+    env: TF_VAR_target_aws_session_token
+  - name: name
+    env: ROLE_NAME
+
+outputs:
+- name: component.xaccountRole.roleArn
+  brief: Agile Stacks IAM role ARN
+  fromTfVar: role_arn
+  

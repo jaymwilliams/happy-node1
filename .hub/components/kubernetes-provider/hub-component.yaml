@@ -1,0 +1,31 @@
+---
+version: 1
+kind: component
+meta:
+  name: kubernetes-provider
+  brief: Extracts necessary parameters from target Kubernetes platform
+  source:
+    dir: components/kubernetes-provider
+
+parameters:
+- name: component.kubernetesProvider
+  parameters:
+  - name: stateFile
+    env: KUBE_PROVIDER_STATE_FILE
+  - name: elaborateFile
+    env: KUBE_PROVIDER_ELABORATE_FILE
+  - name: roleArn
+    env: XACCOUNT_ROLE
+
+outputs:
+- name: component.kubernetesProvider.ingress.fqdn
+  fromTfVar: fqdn
+- name: component.kubernetesProvider.ingress.ssoFqdn
+  fromTfVar: ssoFqdn
+- name: component.kubernetesProvider.ingress.protocol
+  fromTfVar: protocol         
+- name: component.kubernetesProvider.region
+  fromTfVar: region
+- name: component.kubernetesProvider.domain
+  fromTfVar: domain
+  
