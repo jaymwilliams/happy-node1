@@ -1,0 +1,39 @@
+{
+  "name": "${application.name}",
+  "description": "${application.description}",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=10.13",
+    "npm": ">=6.4"
+  },
+  "private": true,
+  "main": "app/server.js",
+  "scripts": {
+    "start": "node app/server.js",
+    "test": "npm run lint && npm run jest",
+    "jest": "jest",
+    "lint": "eslint app/**",
+    "junit:lint": "eslint -o eslint-junit.xml -f junit app/**",
+    "junit:test": "jest --ci --reporters=jest-junit",
+    "junit": "npm run junit:lint && npm run junit:test"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.11.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "jest": "^23.6.0",
+    "jest-junit": "^5.1.0",
+    "supertest": "^3.3.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
+  },
+  "prettier": {
+    "singleQuote": true
+  }
+}

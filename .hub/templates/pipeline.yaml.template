@@ -1,0 +1,21 @@
+---
+apiVersion: "jenkins.agilestacks.com/v1"
+kind: Pipeline
+metadata:
+  name: ${application.pipeline.name}-${application.name}
+spec:
+  repositoryUrl: ${component.git.remote}
+  credentialsId: ${application.git.kind}-${component.git.organization}
+  folder: ${application.name}  
+  branchSpec: '*/master'
+  pipeline: Jenkinsfile
+  origin: 'SuperHub'
+  parameters:
+    - name: APP_STATE_FILE
+      type: string
+      defaultValue: ${application.state.file}
+      description: 'State file of the application stack'
+    - name: AWS_TRUST_ROLE
+      type: string
+      defaultValue: ${component.jenkins-iam-role.roleArn}
+      description: 'Role to assume for to deploy application'

@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log*
+coverage
+.hub/templates/*.yaml
+.hub/templates/*.json
+.hub/hub.elaborate
+.hub/hub.state
+.hub/manifests
+.terraform
+*.tfplan
+eslint-junit.xml
+junit.xml
+kubernetes.yaml
