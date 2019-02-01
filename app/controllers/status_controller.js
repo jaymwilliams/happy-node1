@@ -4,7 +4,7 @@ module.exports = {
   getStatus(req, res) {
     const body = {
       name: pkg.name,
-      version: '2.0',
+      version: pkg.version,
       uptime: process.uptime(),
     };
     if (process.env.ENVIRONMENT_NAME) {
