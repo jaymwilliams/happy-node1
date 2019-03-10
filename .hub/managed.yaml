@@ -1,0 +1,41 @@
+parameters:
+  - name: application.description
+    value: NodeJS microservice with Express
+  - name: application.ingress
+    value: happy-node1.app.dev4.demo10.superhub.io
+  - name: application.name
+    value: happy-node1
+  - name: application.namespace
+    value: applications
+  - name: application.path
+    value: /
+  - name: application.replicas
+    value: '1'
+  - name: component.dex.okta.appId
+    value: 0oa342u227BWaWsTm2p7
+  - name: component.dex.okta.clientId
+    value: 0oa342u227BWaWsTm2p7
+  - name: component.dex.okta.clientSecret
+    value: C5jp0khDeNjp2vBEycCvOikMQHn-7X2oDPNoU3Lh
+  - name: component.dex.okta.issuer
+    value: 'https://agilestacks.okta.com'
+  - name: component.ecr.name
+    value: 'happy-node1.${dns.domain}'
+  - name: component.github.repository.name
+    value: happy-node1
+  - name: component.github.repository.organization
+    value: mameshini
+outputs:
+  - name: application.description
+  - name: application.ingress
+  - name: application.name
+  - name: application.namespace
+  - name: application.path
+  - name: application.replicas
+  - name: component.dex.okta.appId
+  - name: component.dex.okta.clientId
+  - name: component.dex.okta.clientSecret
+  - name: component.dex.okta.issuer
+  - name: component.ecr.name
+  - name: component.github.repository.name
+  - name: component.github.repository.organization
